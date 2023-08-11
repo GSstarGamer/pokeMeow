@@ -1,0 +1,11 @@
+{
+    "token": "",
+    "channelID": 1139578465847357522,
+
+    "pokeball": ["common"],
+    "greatball": ["uncommon", "rare"],
+    "ultraball": ["super"],
+    "masterball": ["legendary"],
+
+    "delayInbetween": [10, 15]
+}
