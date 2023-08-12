@@ -47,7 +47,7 @@ async def mainLoop():
     async for command in channelToFarm.slash_commands():
         if command.name == 'pokemon':
             response = await command.__call__(channel=channelToFarm)
-            await bot.wait_for("message", check=check)
+            await bot.wait_for("message", check=check, timeout=15)
             if len(response.message.embeds) > 0:
                 if response.message.embeds[0].title == 'A wild Captcha appeared!':
                     for i in range(10):
@@ -63,11 +63,15 @@ async def mainLoop():
                         ballType = extract_emoji_name(
                             str(button.emoji))
                         if pokeType in config[ballType]:
-                            await button.click()
-                            logger.success(
-                                f'Clicked {ballType} for a {pokemonName} - {pokeType}')
+                            try:
+                                await button.click()
+                                logger.success(
+                                    f'Clicked {ballType} for a {pokemonName} - {pokeType}')
+                            except:
+                                logger.fail('Failed to use ball (discord)')
+                                pass
                             break
-                        logger.fail('Failed to use ball')
+                        logger.fail('Failed to use ball (no balls)')
             elif 'wait' in response.message.content:
                 logger.log('Need to waiting')
             else:
