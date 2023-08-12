@@ -53,7 +53,7 @@ async def mainLoop():
                     for i in range(10):
                         logger.warn('CAPTCHA REQ, GET BACK')
                         await toast_async('PokeMeow Alert', 'Captcha Reqired')
-                        asyncio.sleep(.5)
+                        await asyncio.sleep(.5)
                 pokemonName = extract_poke_name(
                     response.message.embeds[0].description)
                 pokeType = response.message.embeds[0].footer.text.split()[
@@ -63,7 +63,7 @@ async def mainLoop():
                         ballType = extract_emoji_name(
                             str(button.emoji))
                         if pokeType in config[ballType]:
-                            asyncio.sleep(random.randint(2, 8))
+                            await asyncio.sleep(random.randint(2, 8))
                             try:
                                 await button.click()
                                 logger.success(
