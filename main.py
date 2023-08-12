@@ -63,8 +63,8 @@ async def mainLoop():
                         ballType = extract_emoji_name(
                             str(button.emoji))
                         if pokeType in config[ballType]:
-                            await asyncio.sleep(random.randint(2, 8))
                             try:
+                                await asyncio.sleep(random.randint(2, 8))
                                 await button.click()
                                 logger.success(
                                     f'Clicked {ballType} for a {pokemonName} - {pokeType}')
