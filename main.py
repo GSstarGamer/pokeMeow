@@ -2,9 +2,9 @@ from discord.ext import commands, tasks
 import re
 import json
 import random
-from time import sleep
 from win11toast import toast_async
 import PyUtls as logger
+import asyncio
 
 with open('config.json', 'r') as f:
     config = json.load(f)
@@ -53,7 +53,7 @@ async def mainLoop():
                     for i in range(10):
                         logger.warn('CAPTCHA REQ, GET BACK')
                         await toast_async('PokeMeow Alert', 'Captcha Reqired')
-                        sleep(.5)
+                        asyncio.sleep(.5)
                 pokemonName = extract_poke_name(
                     response.message.embeds[0].description)
                 pokeType = response.message.embeds[0].footer.text.split()[
