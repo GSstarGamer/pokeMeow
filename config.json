@@ -7,5 +7,8 @@
     "ultraball": ["super"],
     "masterball": ["legendary"],
 
-    "delayInbetween": [13, 17]
+    "delayInbetween": [13, 17],
+    "clickTime": [2, 5],
+
+    "notifyOn": ["legendary", "shiny"]
 }
