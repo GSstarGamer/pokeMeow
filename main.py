@@ -19,6 +19,8 @@ channelToFarmID = config['channelID']
 bot = commands.Bot(command_prefix=command_prefix,
                    help_command=None)
 
+bot.InCapatcha = False
+
 with open('messages.json', 'r') as f:
     messages = json.load(f)
     messages = messages['text']
@@ -53,10 +55,11 @@ def check(m):
 
 @tasks.loop(seconds=random.randint(4, 10))
 async def randomSender():
-    channelToFarm = bot.get_channel(channelToFarmID)
-    async with channelToFarm.typing():
-        await asyncio.sleep(random.randint(1, 5))
-        await channelToFarm.send(randomMessage())
+    if not bot.InCapatcha:
+        channelToFarm = bot.get_channel(channelToFarmID)
+        async with channelToFarm.typing():
+            await asyncio.sleep(random.randint(1, 5))
+            await channelToFarm.send(randomMessage())
 
 
 @ tasks.loop(seconds=random.randint(
@@ -69,11 +72,13 @@ async def mainLoop():
             await bot.wait_for("message", check=check, timeout=15)
             if len(response.message.embeds) > 0:
                 if response.message.embeds[0].title == 'A wild Captcha appeared!':
+                    bot.InCapatcha = True
                     for i in range(10):
                         logger.warn('CAPTCHA REQ, GET BACK')
                         await toast_async('PokeMeow Alert', 'Captcha Reqired')
                         await asyncio.sleep(.5)
                 else:
+                    bot.InCapatcha = False
                     pokemonName = extract_poke_name(
                         response.message.embeds[0].description)
                     pokeType = response.message.embeds[0].footer.text.split()[
